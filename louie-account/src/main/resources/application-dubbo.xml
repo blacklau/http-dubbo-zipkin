@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">     
+	<dubbo:application name="account" />
+	<!-- 本机 伪集群 测试 -->     
+    <dubbo:registry  protocol="zookeeper"  address="localhost:2181"  />
+   	<dubbo:protocol name="dubbo" port="20897" />     
+	<dubbo:service interface="com.louie.common.dubbo.RpcManager" ref="accountCall"  group="account" protocol="dubbo"/>   <!--  group="property1" -->   
+	<dubbo:provider filter="traceFilters" />
+	<dubbo:consumer filter="traceFilterc" />
+	 <!-- 和本地bean一样实现服务 -->
+	<bean id="accountCall" class="com.louie.common.dubbo.RpcManagerImpl" />
+</beans>
