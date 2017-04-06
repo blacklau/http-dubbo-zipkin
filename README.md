@@ -14,9 +14,9 @@
    打开zipkin ui，http://localhost:9411/，查看调用链信息， 
    
    
-   ![image](https://github.com/blacklau/http-dubbo-zipkin/blob/master/request-params.png)
+   ![跟踪信息](https://github.com/blacklau/http-dubbo-zipkin/blob/master/trace-info.png)
    
     带请求参数
     
-    ![image](https://github.com/blacklau/http-dubbo-zipkin/blob/master/trace-info.png)
+    ![span信息,带请求参数](https://github.com/blacklau/http-dubbo-zipkin/blob/master/request-params.png)
    
