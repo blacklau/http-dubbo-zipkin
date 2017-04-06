@@ -1,3 +1,4 @@
+订单详情的查询演示系统的调用链跟踪,各工程作用，louie-webapi向外部提供http调用，返回json；louie-order模拟订单系统，查询订单详情；louie-account模拟账户系统，查询账户信息，调用链如图：
 1、下载zipkin并运行
   wget -O zipkin.jar 'https://search.maven.org/remote_content?g=io.zipkin.java&a=zipkin-server&v=LATEST&c=exec'
   java -jar zipkin.jar
