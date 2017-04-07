@@ -6,6 +6,9 @@ louie-webapi:向外部提供http调用，返回json；
 louie-order:模拟订单系统，查询订单详情；
 
 louie-account:模拟账户系统，查询账户信息，调用链如图
+![调用流程](https://github.com/blacklau/http-dubbo-zipkin/blob/master/call.png)
+
+使用：
 
 1、下载zipkin并运行
   wget -O zipkin.jar 'https://search.maven.org/remote_content?g=io.zipkin.java&a=zipkin-server&v=LATEST&c=exec'
