@@ -22,6 +22,9 @@ louie-account:模拟账户系统，查询账户信息，调用链如图
 4、http调用
    http://localhost:8080/louie-webapi/service.do?service=order.customer.orderInfo&data={"token":"jkfldjsliewklkklls","id":89}
    
+   service参数为Service注解值加上方法名，为对应提供的rpc服务,data参数为rpc请求参数
+   ![service](https://github.com/blacklau/http-dubbo-zipkin/blob/master/service.png)
+   
    打开zipkin ui，http://localhost:9411/，查看调用链信息， 
    ![跟踪信息](https://github.com/blacklau/http-dubbo-zipkin/blob/master/trace-info.png)
    
