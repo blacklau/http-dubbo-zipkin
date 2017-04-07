@@ -17,10 +17,10 @@ import com.louie.core.CallResult;
 @Lazy
 @Service("account.user")
 public class UserService{
+
 	/**
-	 * 
-	 * @param context
-	 * @param user
+	 * 用户信息
+	 * @param params
 	 * @return
 	 */
 	public CallResult info(CallParams params){
