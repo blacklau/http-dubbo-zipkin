@@ -1,1 +1,1 @@
-traceFilterc=com.louie.trace.WebApiDrpcClientInterceptor
+traceFilterc=com.louie.common.dubbo.DrpcClientInterceptor

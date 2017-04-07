@@ -8,7 +8,15 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
-
+	<bean id="zipkinConfigurer"
+		class="com.louie.common.config.ZipkinConfig">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:brave.properties</value>
+			</list>
+		</property>
+	</bean>
 	<import resource="application-dubbo.xml" />
 	<import resource="application-mvc.xml" />	
 </beans>

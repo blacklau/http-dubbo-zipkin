@@ -7,9 +7,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.KeyValueAnnotation;
@@ -19,6 +21,8 @@ import com.github.kristofa.brave.ServerResponseAdapter;
 import com.github.kristofa.brave.ServerResponseInterceptor;
 import com.github.kristofa.brave.SpanId;
 import com.github.kristofa.brave.TraceData;
+import com.louie.common.config.ZipkinConfig;
+import com.louie.common.constant.ZipkinConstants;
 import com.louie.core.Service;
 
 import zipkin.reporter.AsyncReporter;
@@ -26,7 +30,7 @@ import zipkin.reporter.Reporter;
 import zipkin.reporter.Sender;
 import zipkin.reporter.okhttp3.OkHttpSender;
 
-public class DrpcServerInterceptor {
+public class DrpcServerInterceptor implements Filter{
 	
     private final ServerRequestInterceptor serverRequestInterceptor;
     private final ServerResponseInterceptor serverResponseInterceptor;
@@ -34,11 +38,11 @@ public class DrpcServerInterceptor {
 	public DrpcServerInterceptor() { 
 		Sender sender = OkHttpSender.create("http://127.0.0.1:9411/api/v1/spans");
     	Reporter<zipkin.Span> reporter = AsyncReporter.builder(sender).build();
-    	Brave brave = new Brave.Builder(getAppName()).reporter(reporter).build();
+    	String application = ZipkinConfig.getProperty(ZipkinConstants.BRAVE_NAME);//RpcContext.getContext().getUrl().getParameter("application");
+    	Brave brave = new Brave.Builder(application).reporter(reporter).build();
         this.serverRequestInterceptor = brave.serverRequestInterceptor();
         this.serverResponseInterceptor = brave.serverResponseInterceptor();
     }
-    
 
 	public Result invoke(Invoker<?> arg0, Invocation arg1) throws RpcException {
 		serverRequestInterceptor.handle(new DrpcServerRequestAdapter(arg1));
@@ -51,12 +55,6 @@ public class DrpcServerInterceptor {
         }
 		return result;
 	}
-
-    public String getAppName() {
-		return "unknow";
-	}
-
-
 
 	static final class DrpcServerRequestAdapter implements ServerRequestAdapter {
     	private Invocation invocation;

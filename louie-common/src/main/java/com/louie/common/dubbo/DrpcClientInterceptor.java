@@ -9,9 +9,11 @@ import zipkin.reporter.Reporter;
 import zipkin.reporter.Sender;
 import zipkin.reporter.okhttp3.OkHttpSender;
 
+import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.ClientRequestAdapter;
@@ -24,11 +26,13 @@ import com.github.kristofa.brave.KeyValueAnnotation;
 import com.github.kristofa.brave.SpanId;
 import com.github.kristofa.brave.internal.Nullable;
 import com.github.kristofa.brave.internal.Util;
+import com.louie.common.config.ZipkinConfig;
+import com.louie.common.constant.ZipkinConstants;
 import com.louie.core.Service;
 import com.louie.utils.JsonUtils;
 import com.twitter.zipkin.gen.Span;
 
-public class DrpcClientInterceptor {
+public class DrpcClientInterceptor implements Filter{
 	
     private final ClientRequestInterceptor clientRequestInterceptor;
     private final ClientResponseInterceptor clientResponseInterceptor;
@@ -37,7 +41,8 @@ public class DrpcClientInterceptor {
     public DrpcClientInterceptor() {
     	Sender sender = OkHttpSender.create("http://127.0.0.1:9411/api/v1/spans");
     	Reporter<zipkin.Span> reporter = AsyncReporter.builder(sender).build();
-    	Brave brave = new Brave.Builder(getAppName()).reporter(reporter).build();
+    	String application = ZipkinConfig.getProperty(ZipkinConstants.BRAVE_NAME);
+    	Brave brave = new Brave.Builder(application).reporter(reporter).build();
         this.clientRequestInterceptor = Util.checkNotNull(brave.clientRequestInterceptor(),null);
         this.clientResponseInterceptor = Util.checkNotNull(brave.clientResponseInterceptor(),null);
         this.clientSpanThreadBinder = Util.checkNotNull(brave.clientSpanThreadBinder(),null);
@@ -59,10 +64,6 @@ public class DrpcClientInterceptor {
 		return result;
 	}
 
-	public String getAppName(){
-		return "unknow";
-	}
-	
     static final class GrpcClientRequestAdapter implements ClientRequestAdapter {
     	private Invocation invocation;
         public GrpcClientRequestAdapter(Invocation invocation) {

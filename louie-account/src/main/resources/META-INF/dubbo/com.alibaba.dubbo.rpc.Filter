@@ -1,2 +1,2 @@
-traceFilters=com.louie.account.trace.AccountDrpcServerInterceptor
-traceFilterc=com.louie.account.trace.AccountDrpcClientInterceptor
+traceFilters=com.louie.common.dubbo.DrpcServerInterceptor
+traceFilterc=com.louie.common.dubbo.DrpcClientInterceptor

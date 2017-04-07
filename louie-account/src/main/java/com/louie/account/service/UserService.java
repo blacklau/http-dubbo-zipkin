@@ -24,7 +24,6 @@ public class UserService{
 	 * @return
 	 */
 	public CallResult info(CallParams params){
-		System.out.println("request params:"+params.getData());
 
 		CallResult cr = new CallResult();
 		Map<String,Object> data = new HashMap<String,Object>();
