@@ -1,4 +1,4 @@
-package com.louie.eshop.dto;
+package com.louie.order.dto;
 
 public class OrderDto {
 	private String goodsName;
