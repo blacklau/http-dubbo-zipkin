@@ -4,16 +4,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import zipkin.reporter.AsyncReporter;
-import zipkin.reporter.Reporter;
-import zipkin.reporter.Sender;
-import zipkin.reporter.okhttp3.OkHttpSender;
-
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.extension.Activate;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.ClientRequestAdapter;
@@ -32,6 +28,12 @@ import com.louie.core.Service;
 import com.louie.utils.JsonUtils;
 import com.twitter.zipkin.gen.Span;
 
+import zipkin.reporter.AsyncReporter;
+import zipkin.reporter.Reporter;
+import zipkin.reporter.Sender;
+import zipkin.reporter.okhttp3.OkHttpSender;
+
+@Activate(group = Constants.CONSUMER)
 public class DrpcClientInterceptor implements Filter{
 	
     private final ClientRequestInterceptor clientRequestInterceptor;
@@ -39,7 +41,8 @@ public class DrpcClientInterceptor implements Filter{
     private final ClientSpanThreadBinder clientSpanThreadBinder;
    
     public DrpcClientInterceptor() {
-    	Sender sender = OkHttpSender.create("http://127.0.0.1:9411/api/v1/spans");
+    	String sendUrl = ZipkinConfig.getProperty(ZipkinConstants.SEND_ADDRESS);
+    	Sender sender = OkHttpSender.create(sendUrl);
     	Reporter<zipkin.Span> reporter = AsyncReporter.builder(sender).build();
     	String application = ZipkinConfig.getProperty(ZipkinConstants.BRAVE_NAME);
     	Brave brave = new Brave.Builder(application).reporter(reporter).build();

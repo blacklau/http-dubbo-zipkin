@@ -15,8 +15,6 @@
    	<dubbo:protocol name="dubbo" port="2089" />     
     <dubbo:service interface="com.louie.common.dubbo.RpcManager" ref="orderCall"  group="order" protocol="dubbo"/>   <!--  group="property1" -->  
 	<bean id="orderCall" class="com.louie.common.dubbo.RpcManagerImpl" />
-    <dubbo:provider filter="traceFilters" />
-    <dubbo:consumer filter="traceFilterc" />
     <!-- 生成远程服务代理，可以和本地bean一样使用demoService -->  
     <dubbo:reference  group="account" id="accountCall" interface="com.louie.common.dubbo.RpcManager" timeout="120000"  retries="0" check="false"/> 
 </beans>  

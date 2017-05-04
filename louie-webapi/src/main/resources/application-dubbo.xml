@@ -10,6 +10,5 @@
     <dubbo:application name="webapi" />         
     <dubbo:registry  protocol="zookeeper"  address="localhost:2181" />
    	<dubbo:protocol name="dubbo" port="2088" />
-    <dubbo:consumer filter="traceFilterc" />
     <dubbo:reference  group="order" id="orderCall" interface="com.louie.common.dubbo.RpcManager" timeout="120000"  retries="0" check="false"/> 
 </beans>  

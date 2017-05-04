@@ -12,8 +12,6 @@
     <dubbo:registry  protocol="zookeeper"  address="localhost:2181"  />
    	<dubbo:protocol name="dubbo" port="20897" />     
 	<dubbo:service interface="com.louie.common.dubbo.RpcManager" ref="accountCall"  group="account" protocol="dubbo"/>   <!--  group="property1" -->   
-	<dubbo:provider filter="traceFilters" />
-	<dubbo:consumer filter="traceFilterc" />
-	 <!-- 和本地bean一样实现服务 -->
+	<!-- 和本地bean一样实现服务 -->
 	<bean id="accountCall" class="com.louie.common.dubbo.RpcManagerImpl" />
 </beans>
